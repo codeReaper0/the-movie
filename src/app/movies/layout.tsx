@@ -1,4 +1,3 @@
-import SideBar from "@/components/movie/sideBar";
 import type {Metadata} from "next";
 
 export const metadata: Metadata = {
@@ -6,10 +5,10 @@ export const metadata: Metadata = {
   description: "Welcome to the world of movies",
 };
 
-export default function Movies() {
+export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <main className="flex font-poppins">
-      <SideBar />
-    </main>
+    <html lang="en">
+      <body>{children}</body>
+    </html>
   );
 }

@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Hero() {
   return (
-    <section className="h-screen bg-[url('/assets/images/poster.png')] bg-cover bg-center">
+    <section className="h-[80vh] bg-[url('/assets/images/poster.png')] bg-cover bg-center">
       <div className="max-w-7xl mx-auto text-white flex items-center h-full">
         <div className="max-w-xs space-y-4">
           {/* Movie detail */}
