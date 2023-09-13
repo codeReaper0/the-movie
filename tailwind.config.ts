@@ -12,6 +12,10 @@ const config: Config = {
         sans: ["DM Sans", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
       },
+      colors: {
+        gray: "#333333",
+        lightgray: "#888888",
+      },
     },
   },
   plugins: [],

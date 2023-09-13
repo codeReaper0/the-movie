@@ -1,8 +1,8 @@
-const apiUrl = `https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1`;
+const url = "https://api.themoviedb.org/3/trending/movie/week?language=en-US";
 
-const getMovies = async () => {
+const getTrendingMovies = async () => {
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         accept: "application/json",
@@ -23,5 +23,5 @@ const getMovies = async () => {
 };
 
 export default {
-  getMovies,
+  getTrendingMovies,
 };
