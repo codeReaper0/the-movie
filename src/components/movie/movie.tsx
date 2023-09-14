@@ -17,18 +17,6 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
     }
   };
 
-  const inputDate = new Date(movieData.release_date + "T00:00:00-07:00");
-  const utcDate = new Date(
-    Date.UTC(
-      inputDate.getUTCFullYear(),
-      inputDate.getUTCMonth(),
-      inputDate.getUTCDate(),
-      0,
-      0,
-      0
-    )
-  );
-
   useEffect(() => {
     getTrendingMovies();
   }, []);
@@ -66,7 +54,7 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
               <span data-testid="movie-title">{movieData.title}</span>
               <span> • </span>
               <span data-testid="movie-release-date">
-                {utcDate.toISOString()}
+                {`${movieData.release_date} (UTC)`}
               </span>
               <span> • </span>
               <span>{movieData.adult === false ? "PG-13" : "18+"}</span>
@@ -104,7 +92,6 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
           <p className="text-sm lg:text-base">
             <span className="text-[#333]">Writers: </span>
             <span className="text-[#be123c]">
-              {" "}
               {movieData.production_companies[0].name}
             </span>
           </p>
