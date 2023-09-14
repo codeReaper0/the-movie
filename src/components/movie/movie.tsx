@@ -17,12 +17,24 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
     }
   };
 
+  const inputDate = new Date(movieData.release_date + "T00:00:00-07:00");
+  const utcDate = new Date(
+    Date.UTC(
+      inputDate.getUTCFullYear(),
+      inputDate.getUTCMonth(),
+      inputDate.getUTCDate(),
+      0,
+      0,
+      0
+    )
+  );
+
   useEffect(() => {
     getTrendingMovies();
   }, []);
 
   return (
-    <main className="flex-grow p-6 h-screen overflow-y-auto">
+    <main className="flex-grow p-5 lg:p-6 h-screen overflow-y-auto">
       {/* Trailer */}
       <div className="relative rounded-[20px] overflow-hidden mb-4">
         <Image
@@ -33,7 +45,7 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
           className="w-full max-h-[405px] object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="rounded-full w-[110px] h-[110px] bg-[#E8E8E833] backdrop-blur-[2px] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] flex items-center justify-center stroke-[2] stroke-[rgb(232,232,232/0.20)] cursor-pointer">
+          <div className="rounded-full w-16 lg:w-[110px] h-16 lg:h-[110px] bg-[#E8E8E833] backdrop-blur-[2px] shadow-[0px_2px_4px_rgba(0,0,0,0.25)] flex items-center justify-center stroke-[2] stroke-[rgb(232,232,232/0.20)] cursor-pointer">
             <Image
               src="/assets/icons/play.png"
               width={50}
@@ -47,15 +59,23 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
       </div>
 
       {/* Movie Info */}
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8">
           <div className="flex items-center gap-4 mb-5">
-            <p className="font-medium text-[#404040] text-lg">
-              {`${movieData.title} • ${movieData.release_date.slice(0, 4)} • ${
-                movieData.adult === false ? "PG-13" : "18+"
-              } • ${minutesConverter(movieData.runtime)}`}
+            <p className="font-medium text-[#404040] lg:text-lg">
+              <span data-testid="movie-title">{movieData.title}</span>
+              <span> • </span>
+              <span data-testid="movie-release-date">
+                {utcDate.toISOString()}
+              </span>
+              <span> • </span>
+              <span>{movieData.adult === false ? "PG-13" : "18+"}</span>
+              <span> • </span>
+              <span data-testid="movie-runtime">
+                {minutesConverter(movieData.runtime)}
+              </span>
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {movieData.genres.map((genre) => {
                 return (
                   <p
@@ -70,10 +90,10 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
           </div>
 
           {/* Details */}
-          <p className="text-[#333]">{movieData.overview}</p>
+          <p className="text-[#333] text-sm lg:text-lg">{movieData.overview}</p>
 
           {/* Director */}
-          <p className="my-6">
+          <p className="my-3 lg:my-6 text-sm lg:text-base">
             <span className="text-[#333]">Director: </span>
             <span className="text-[#be123c]">
               {movieData.production_companies[0].name}
@@ -81,7 +101,7 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
           </p>
 
           {/* Writers */}
-          <p className="">
+          <p className="text-sm lg:text-base">
             <span className="text-[#333]">Writers: </span>
             <span className="text-[#be123c]">
               {" "}
@@ -90,27 +110,27 @@ export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
           </p>
 
           {/* Stars */}
-          <p className="my-6">
+          <p className="my-3 lg:my-6 text-sm lg:text-base">
             <span className="text-[#333]">Stars: </span>
             <span className="text-[#be123c]">Tom Cruise</span>
           </p>
 
           {/* top ranking */}
           <div className="flex rounded-[10px] border w-max">
-            <p className="bg-[#be123c] rounded-[10px] py-2 px-4 text-white">
+            <p className="bg-[#be123c] rounded-[10px] py-2 px-2 lg:px-4 text-white text-xs lg:text-base">
               Top rated movie #65
             </p>
             <select
               name=""
               id=""
-              className="py-2 pl-4 w-[300px] rounded-[10px] focus:outline-none"
+              className="py-2 px-2 lg:pl-4 lg:w-[300px] rounded-[10px] focus:outline-none text-xs lg:text-base"
             >
               <option value="">Award 9 nominations</option>
             </select>
           </div>
         </div>
 
-        <div className="col-span-4">
+        <div className="lg:col-span-4">
           <div className="flex gap-2 items-center justify-end mb-4">
             <Image
               src="/assets/icons/star.png"

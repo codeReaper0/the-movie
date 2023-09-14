@@ -16,8 +16,8 @@ const getMovies = async () => {
       const errorResponse = await response.json();
       throw new Error(errorResponse.message);
     }
-    const transactions = await response.json();
-    return transactions;
+    const result = await response.json();
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -38,8 +38,8 @@ const getMovieWithID = async (id: number) => {
       const errorResponse = await response.json();
       throw new Error(errorResponse.message);
     }
-    const transactions = await response.json();
-    return transactions;
+    const result = await response.json();
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -60,8 +60,8 @@ const getMovieWithIMDB = async (imdb: string) => {
       const errorResponse = await response.json();
       throw new Error(errorResponse.message);
     }
-    const transactions = await response.json();
-    return transactions;
+    const result = await response.json();
+    return result;
   } catch (error: any) {
     console.error(error.message);
   }

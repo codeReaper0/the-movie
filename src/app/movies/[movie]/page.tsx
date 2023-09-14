@@ -6,6 +6,7 @@ import get from "@/lib/topRated";
 import {useEffect, useState} from "react";
 import {MovieLoader} from "@/components/loaders/movieLoader";
 import {MovieWithIMDB} from "@/types/data-types";
+import MobileHeader from "@/components/mobileHeader";
 
 export default function Movies() {
   const pathname = usePathname();
@@ -32,15 +33,18 @@ export default function Movies() {
   return (
     <div className="flex font-poppins">
       <SideBar />
-      {loading ? (
-        <MovieLoader />
-      ) : movie !== undefined ? (
-        <Movie movieData={movie} />
-      ) : (
-        <h2 className="text-3xl p-4 font-bold">
-          Please provide a valid movie ID
-        </h2>
-      )}
+      <div className="flex-grow">
+        <MobileHeader />
+        {loading ? (
+          <MovieLoader />
+        ) : movie !== undefined ? (
+          <Movie movieData={movie} />
+        ) : (
+          <h2 className="text-3xl p-4 font-bold">
+            Please provide a valid movie ID
+          </h2>
+        )}
+      </div>
     </div>
   );
 }

@@ -15,8 +15,8 @@ const getTrendingMovies = async () => {
       const errorResponse = await response.json();
       throw new Error(errorResponse.message);
     }
-    const transactions = await response.json();
-    return transactions;
+    const result = await response.json();
+    return result;
   } catch (error: any) {
     throw new Error(error.message);
   }

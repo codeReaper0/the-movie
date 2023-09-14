@@ -4,3 +4,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swiper-pagination-bullet {
+  background: #ffffffde !important;
+  width: 26px !important;
+  border-radius: 8px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #fff !important;
+}
