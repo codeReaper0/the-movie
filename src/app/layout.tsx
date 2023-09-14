@@ -1,9 +1,14 @@
+"use client";
 import "public/assets/css/main.css";
+import {ToastContainer} from "react-toastify";
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ToastContainer />
+        {children}
+      </body>
     </html>
   );
 }

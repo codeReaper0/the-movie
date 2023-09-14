@@ -4,16 +4,25 @@ import Image from "next/image";
 import {MovieWithIMDB, TrendingMovies} from "@/types/data-types";
 import {formatNumber, minutesConverter} from "@/lib/globalFunctions";
 import get from "@/lib/getTrendingMovies";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Movie({movieData}: {movieData: MovieWithIMDB}) {
   const [trending, setTrending] = useState<TrendingMovies[]>();
 
   const getTrendingMovies = async () => {
-    const res = await get.getTrendingMovies();
-    if (res) {
-      const result = res.results;
-      const filteredResult = result.slice(0, 3);
-      setTrending(filteredResult);
+    try {
+      const res = await get.getTrendingMovies();
+      if (res) {
+        const result = res.results;
+        const filteredResult = result.slice(0, 3);
+        setTrending(filteredResult);
+      }
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

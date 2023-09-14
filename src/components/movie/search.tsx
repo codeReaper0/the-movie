@@ -6,6 +6,8 @@ import lib from "@/lib/searchMovies";
 import get from "@/lib/topRated";
 import {MovieWithID} from "@/types/data-types";
 import {SearchCardLoader} from "../loaders/cardLoaders";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Search({query}: {query: string}) {
   const [movies, setMovies] = useState<MovieWithID[]>([]);
@@ -13,20 +15,27 @@ export default function Search({query}: {query: string}) {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await lib.searchMovies(query);
-    if (res) {
-      const result = res.results;
-      const filteredResult = result.slice(0, 12);
-      const movieDetailsPromises = filteredResult.map(
-        async (movie: MovieWithID) => {
-          const movieDetails = await get.getMovieWithID(movie.id);
-          return {...movieDetails, favorite: false};
-        }
-      );
+    try {
+      const res = await lib.searchMovies(query);
+      if (res) {
+        const result = res.results;
+        const filteredResult = result.slice(0, 12);
+        const movieDetailsPromises = filteredResult.map(
+          async (movie: MovieWithID) => {
+            const movieDetails = await get.getMovieWithID(movie.id);
+            return {...movieDetails, favorite: false};
+          }
+        );
 
-      const movieDetails = await Promise.all(movieDetailsPromises);
-      setMovies(movieDetails);
-      setLoading(false);
+        const movieDetails = await Promise.all(movieDetailsPromises);
+        setMovies(movieDetails);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 

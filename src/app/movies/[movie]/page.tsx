@@ -7,6 +7,8 @@ import {useEffect, useState} from "react";
 import {MovieLoader} from "@/components/loaders/movieLoader";
 import {MovieWithIMDB} from "@/types/data-types";
 import MobileHeader from "@/components/mobileHeader";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Movies() {
   const pathname = usePathname();
@@ -16,13 +18,33 @@ export default function Movies() {
   const [loading, setLoading] = useState(true);
 
   const CheckMovie = async () => {
-    if (movie_id) {
-      const res = await get.getMovieWithIMDB(movie_id);
-      if (res) {
-        setMovie(res);
-        setLoading(false);
+    try {
+      if (movie_id) {
+        try {
+          const res = await get.getMovieWithIMDB(movie_id);
+          if (res && res.status_code === 34 && !res.success) {
+            toast.error(res.status_message, {
+              position: "top-right",
+              autoClose: 3000,
+            });
+          } else if (res) {
+            setMovie(res);
+            setLoading(false);
+          }
+        } catch (error: any) {
+          // Handle other errors here, if any
+          toast.error(error.message, {
+            position: "top-right",
+            autoClose: 3000,
+          });
+          setLoading(false); // Make sure to set loading to false even in case of an error
+        }
       }
-    } else {
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 3000,
+      });
       setLoading(false);
     }
   };

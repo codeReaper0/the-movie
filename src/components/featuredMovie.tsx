@@ -6,26 +6,35 @@ import {LikeIcon, LikedIcon} from "public/assets/svg/icons";
 import get from "@/lib/topRated";
 import {MovieWithID} from "@/types/data-types";
 import {CardLoader} from "./loaders/cardLoaders";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FeaturedMovie() {
   const [movies, setMovies] = useState<MovieWithID[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
-    const res = await get.getMovies();
-    if (res) {
-      const result = res.results;
-      const filteredResult = result.slice(0, 12);
-      const movieDetailsPromises = filteredResult.map(
-        async (movie: MovieWithID) => {
-          const movieDetails = await get.getMovieWithID(movie.id);
-          return {...movieDetails, favorite: false};
-        }
-      );
+    try {
+      const res = await get.getMovies();
+      if (res) {
+        const result = res.results;
+        const filteredResult = result.slice(0, 12);
+        const movieDetailsPromises = filteredResult.map(
+          async (movie: MovieWithID) => {
+            const movieDetails = await get.getMovieWithID(movie.id);
+            return {...movieDetails, favorite: false};
+          }
+        );
 
-      const movieDetails = await Promise.all(movieDetailsPromises);
-      setMovies(movieDetails);
-      setLoading(false);
+        const movieDetails = await Promise.all(movieDetailsPromises);
+        setMovies(movieDetails);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -51,7 +60,11 @@ export default function FeaturedMovie() {
               allGenres.push(genre.name);
             });
             return (
-              <div key={movie.id} data-testid="movie-card" className="relative space-y-3">
+              <div
+                key={movie.id}
+                data-testid="movie-card"
+                className="relative space-y-3"
+              >
                 {/* like section */}
                 <div className="absolute top-5 inset-x-0 px-4 flex items-center justify-end z-20">
                   {/* <p className="py-1 px-2 text-xs text-gray-900 font-bold rounded-2xl bg-[#F3F4F680] backdrop-blur-[1px]">
@@ -80,11 +93,15 @@ export default function FeaturedMovie() {
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   width={500}
                   height={1000}
-                  className="w-full h-auto" data-testid="movie-poster"
+                  className="w-full h-auto"
+                  data-testid="movie-poster"
                   alt="logo"
                 />
 
-                <p data-testid="movie-release-date" className="text-xs text-gray-400 font-bold">
+                <p
+                  data-testid="movie-release-date"
+                  className="text-xs text-gray-400 font-bold"
+                >
                   {`${
                     movie.production_countries[0].name ===
                     "United States of America"
@@ -93,7 +110,12 @@ export default function FeaturedMovie() {
                   }, ${movie.release_date.slice(0, 4)}`}
                 </p>
 
-                <p data-testid="movie-title" className="text-lg text-gray-900 font-bold">{movie.title}</p>
+                <p
+                  data-testid="movie-title"
+                  className="text-lg text-gray-900 font-bold"
+                >
+                  {movie.title}
+                </p>
 
                 <div className="flex justify-between items-center">
                   <div className="flex gap-2 items-center">
