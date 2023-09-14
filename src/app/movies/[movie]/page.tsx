@@ -29,15 +29,12 @@ export default function Movies() {
             });
           } else if (res) {
             setMovie(res);
-            setLoading(false);
           }
         } catch (error: any) {
-          // Handle other errors here, if any
           toast.error(error.message, {
             position: "top-right",
             autoClose: 3000,
           });
-          setLoading(false); // Make sure to set loading to false even in case of an error
         }
       }
     } catch (error: any) {
@@ -45,10 +42,10 @@ export default function Movies() {
         position: "top-right",
         autoClose: 3000,
       });
+    } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     CheckMovie();
   }, []);
